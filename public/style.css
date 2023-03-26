@@ -1,0 +1,248 @@
+
+:root {
+  --addRoom-bg-color: rgb(27, 27, 27);
+  --addRoomHover-bg-color: rgba(61, 61, 61, 0.8);
+}
+
+@font-face {
+  font-family: 'iaWriter';
+  src: url('./fonts/iAWriterMonoS-Bold.woff') format('woff');
+  font-weight: bold;
+
+}
+
+@font-face {
+  font-family: 'iaWriter';
+  src: url('./fonts/iAWriterMonoS-Regular.woff') format('woff');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('./fonts/Inter-Bold.woff') format('woff');
+  font-weight: bold;
+
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('./fonts/Inter-Regular.woff') format('woff');
+  font-weight: normal;
+}
+
+* {
+  box-sizing: border-box;
+  font-family:"Inter";
+}
+
+html, body {
+  background: #f0f2f5;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+section {
+  flex: 1;
+}
+
+h1, #userCount {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 32px;
+}
+
+b{
+  font-family: "iaWriter";
+  font-weight: bold;
+}
+
+#room, #userCount {
+  padding: 10px;
+}
+
+/* Aside */
+
+aside {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  background-color: var(--addRoom-bg-color);
+  padding: 8px;
+}
+
+
+
+#addRoomButton, .savedRoomButton{
+  padding: 13px;
+  background-color: var(--addRoom-bg-color);
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border: white solid 1px;
+  border-radius: 6px;
+  color: white;
+  display: flex;
+}
+
+.savedRoomButton {
+  border: none;
+  margin-top: 5px;
+}
+
+#addRoomButton:hover, .savedRoomButton:hover{
+  background-color: var(--addRoomHover-bg-color);
+}
+
+.roomButtonText {
+  margin: 0;
+  padding-left: 10px;
+  padding-top: 2px;
+  overflow: hidden;
+}
+
+#savedRooms{
+  padding-top: 5px ;
+  display: flex;
+  flex-direction: column;
+}
+
+.activeRoom {
+  background-color: var(--addRoomHover-bg-color);
+}
+
+/* Chat */
+
+footer {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+input {
+  font-family:"iaWriter";
+  border: none;
+  margin-top: 10px;
+  padding: 5px 10px;
+}
+
+input::placeholder {
+  color: #616161;
+}
+
+#chatContent {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+#userCount {
+  float: right;
+}
+
+#chat {
+  height: calc(100vh - 165px);
+  background: white;
+  padding: 5px 10px;
+}
+
+#chat p{
+  font-family:"iaWriter";
+  margin: 10px;
+}
+
+.userMessage{
+  display: flex;
+  color: blue;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.userDisconnect{
+  color: red;
+}
+
+.userConnect{
+  color: green;
+}
+
+.userConnect, .userDisconnect {
+  font-weight: bold;
+}
+
+#messageInput{
+  width: 50%;
+  padding: 10px;
+  padding-left: 25px;
+  border-radius: 30px;
+  outline: none;
+}
+
+#sendMessageForm{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#sendMessageButton{
+  width: 40px;
+  margin-left: 20px;
+  border-radius: 30px;
+  background-image: url(images/sendIcon.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#sendMessageButton:hover, #loginSubmit:hover {
+  cursor: pointer;
+}
+
+@media all and (min-width: 500px) {
+  .chat {
+    height: calc(100vh - 140px);
+  }
+ 
+}
+
+/*LOGIN*/
+
+#mainContainer{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#loginContainer {
+  background-color: white;
+  border-radius: 30px;
+  padding: 30px;
+}
+
+#loginTitle {
+  margin: 0px 0px 10px 0px ;
+}
+
+#loginForm{
+  display: flex;
+  flex-direction: column;
+}
+
+#usernameInput {
+  font-family:"iaWriter";
+  padding: 12px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  outline: none;
+}
+
+#loginSubmit {
+  font-family:"iaWriter";
+  color: white;
+  padding: 12px;
+  background-color: blue;
+  border: 1px solid blue;
+  border-radius: 10px;
+}
