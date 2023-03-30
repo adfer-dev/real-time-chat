@@ -1,5 +1,5 @@
 import { findRoomByName, addMessageToRoom, createRoom } from './rooms.js'
-import { addRoomToUser, findUserRoom } from './users.js'
+import { addRoomToUser, findUserRoom, deleteUserRoom } from './users.js'
 
 function joinRoom (fastify, socket) {
   return async (roomData) => {
@@ -46,4 +46,12 @@ function leaveRoom (fastify, socket) {
   }
 }
 
-export { leaveRoom, sendMessageToClient, joinRoom }
+function deleteRoomFromUser (socket) {
+  return async (deleteRoomData) => {
+    const selectedRoom = await findRoomByName(deleteRoomData.room)
+    deleteUserRoom(deleteRoomData.username, selectedRoom)
+    socket.emit('deleted_userRoom', { room: selectedRoom.name })
+  }
+}
+
+export { leaveRoom, sendMessageToClient, joinRoom, deleteRoomFromUser }

@@ -73,8 +73,7 @@ aside {
 }
 
 
-
-#addRoomButton, .savedRoomButton{
+#addRoomButton{
   padding: 13px;
   background-color: var(--addRoom-bg-color);
   width: 100%;
@@ -86,13 +85,28 @@ aside {
   display: flex;
 }
 
-.savedRoomButton {
-  border: none;
+.buttonContainer {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  color: white;
   margin-top: 5px;
+  border: none;
 }
 
-#addRoomButton:hover, .savedRoomButton:hover{
+.deleteRoomButton {
+ padding-right: 5px;
+}
+
+#addRoomButton:hover,.buttonContainer:hover{
   background-color: var(--addRoomHover-bg-color);
+}
+
+.savedRoomButton {
+  display: flex;
+  padding: 13px;
+  width: 100%;
 }
 
 .roomButtonText {

@@ -1,10 +1,4 @@
-import mongoose from 'mongoose'
 import { users } from '../models/user.js'
-import dotenv from 'dotenv'
-dotenv.config({ path: process.cwd() + '/.env' })
-
-mongoose.connect(process.env.MONGO_URL, { dbName: process.env.MONGO_DB })
-  .catch(err => console.error(err))
 
 async function findUserByName (username) {
   const user = await users.findOne({ name: username }).exec()
@@ -23,6 +17,7 @@ async function createUser (username) {
     })
   }
 }
+
 /**
  * Adds a room to the list of rooms of the user
  * @param {*} username the name of the user
@@ -36,9 +31,15 @@ async function addRoomToUser (username, room) {
   }
 }
 
+async function deleteUserRoom (username, room) {
+  const selectedUser = await findUserByName(username)
+  selectedUser.rooms.remove(room)
+  await selectedUser.save()
+}
+
 async function findUserRoom (username, roomId) {
   const user = await findUserByName(username)
   return user.rooms.find(room => room._id.equals(roomId))
 }
 
-export { findUserByName, createUser, addRoomToUser, userExists, findUserRoom }
+export { findUserByName, createUser, addRoomToUser, userExists, findUserRoom, deleteUserRoom }

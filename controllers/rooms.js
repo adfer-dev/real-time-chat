@@ -1,10 +1,4 @@
-import mongoose from 'mongoose'
 import { rooms } from '../models/room.js'
-import dotenv from 'dotenv'
-dotenv.config({ path: process.cwd() + '/.env' })
-
-mongoose.connect(process.env.MONGO_URL, { dbName: process.env.MONGO_DB })
-  .catch(err => console.error(err))
 
 async function findRoomByName (roomName) {
   const room = await rooms.findOne({ name: roomName }).exec()
@@ -27,6 +21,7 @@ async function createRoom (roomName) {
 async function deleteRoom (room) {
   await rooms.deleteOne({ _id: room._id })
 }
+
 /**
  * Adds a message to the list of messages of the room
  * @param {*} roomName the name of the room

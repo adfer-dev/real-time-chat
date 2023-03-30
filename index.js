@@ -5,6 +5,7 @@ import fastifySession from '@fastify/session'
 import fastifyCookie from '@fastify/cookie'
 import fastifyIO from 'fastify-socket.io'
 import dotenv from 'dotenv'
+import mongoose from 'mongoose'
 import { socketHandler } from './controllers/sockets.js'
 import { appRoutes } from './controllers/routes.js'
 
@@ -14,6 +15,9 @@ const app = Fastify({
 })
 
 dotenv.config()
+
+mongoose.connect(process.env.MONGO_URL, { dbName: process.env.MONGO_DB })
+  .catch(err => console.error(err))
 
 app.register(formBody)
 app.register(fastifyCookie)

@@ -1,4 +1,4 @@
-import { leaveRoom, sendMessageToClient, joinRoom } from './socketHandlers.js'
+import { leaveRoom, sendMessageToClient, joinRoom, deleteRoomFromUser } from './socketHandlers.js'
 
 export function socketHandler (fastify, opts, done) {
   fastify.ready().then(() => {
@@ -8,6 +8,8 @@ export function socketHandler (fastify, opts, done) {
       socket.on('message', sendMessageToClient(fastify))
 
       socket.on('leave_room', leaveRoom(fastify, socket))
+
+      socket.on('delete_userRoom', deleteRoomFromUser(socket))
     })
   })
 

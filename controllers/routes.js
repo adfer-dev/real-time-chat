@@ -1,13 +1,14 @@
 import { createUser, findUserByName } from './users.js'
+import path from 'path'
 
 export function appRoutes (fastify, opts, done) {
   fastify.get('/', (req, res) => {
-    res.sendFile('login.html', { root: './public' })
+    res.sendFile('login.html', { root: path.join(process.cwd(), 'public') })
   })
 
   fastify.get('/chat', (req, res) => {
     if (req.session.user) {
-      res.sendFile('chat.html', { root: './public' })
+      res.sendFile('chat.html', { root: path.join(process.cwd(), 'public') })
     } else {
       res.redirect('/')
     }

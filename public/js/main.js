@@ -7,6 +7,7 @@ const messageInput = document.getElementById('messageInput')
 const chat = document.getElementById('chat')
 const userCount = document.getElementById('userCount')
 const addRoomButton = document.getElementById('addRoomButton')
+const roomHeader = document.getElementById('room')
 
 // SERVER EVENT LISTENERS
 socket.on('connect', async () => {
@@ -20,12 +21,13 @@ socket.on('connect', async () => {
     .then(user => {
       currentUsername = user.username
       restoreRoomButtons(user.rooms)
+      console.log(currentUsername)
     })
     .catch(err => console.error(err))
 })
 
 socket.on('joined_room', (data) => {
-  document.getElementById('room').innerHTML = data.room.name
+  roomHeader.innerHTML = data.room.name
   if (currentRoom !== data.room.name) {
     restoreRoomMessages(data.room.messages)
     currentRoom = data.room.name
@@ -56,6 +58,12 @@ socket.on('user_disconnected', (disconnectData) => {
 socket.on('left_room', (leftRoomData) => {
   const disconnectionMessage = 'user left the room: ' + leftRoomData.username
   appendInfoMessage(disconnectionMessage, 'userDisconnect')
+})
+
+socket.on('deleted_userRoom', (deletedRoomData) => {
+  document.getElementById(deletedRoomData.room).remove()
+  chat.innerHTML = ''
+  roomHeader.innerHTML = ''
 })
 
 // PAGE EVENT LISTENERS
@@ -109,14 +117,28 @@ function appendUserMessage (username, message) {
  * @param {*} roomName the room that the button redirects to
  */
 function createRoomButton (roomName) {
+  const buttonContainer = document.createElement('div')
   const roomButton = document.createElement('a')
-  roomButton.id = roomName
+  const deleteRoom = document.createElement('a')
+
+  buttonContainer.className = 'buttonContainer'
+  buttonContainer.id = roomName
+
+  deleteRoom.className = 'deleteRoomButton'
+  deleteRoom.innerHTML = '<img src="images/deleteRoom.svg" >'
+
+  deleteRoom.addEventListener('click', () => {
+    socket.emit('delete_userRoom', { room: currentRoom, username: currentUsername })
+  })
+
   roomButton.className = 'savedRoomButton'
   roomButton.innerHTML = '<img src="images/roomButton.svg"> <p class="roomButtonText">' + roomName + '</p>'
   roomButton.addEventListener('click', () => {
     swapRoom(roomName)
   })
-  document.getElementById('savedRooms').append(roomButton)
+  document.getElementById('savedRooms').append(buttonContainer)
+  buttonContainer.append(roomButton)
+  buttonContainer.append(deleteRoom)
 }
 
 function swapRoom (newRoom) {
