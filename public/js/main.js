@@ -21,13 +21,13 @@ socket.on('connect', async () => {
     .then(user => {
       currentUsername = user.username
       restoreRoomButtons(user.rooms)
-      console.log(currentUsername)
     })
     .catch(err => console.error(err))
 })
 
 socket.on('joined_room', (data) => {
   roomHeader.innerHTML = data.room.name
+  document.getElementById(currentRoom)?.classList.remove('activeRoom')
   if (currentRoom !== data.room.name) {
     restoreRoomMessages(data.room.messages)
     currentRoom = data.room.name
@@ -36,6 +36,7 @@ socket.on('joined_room', (data) => {
   if (data.isNew) {
     createRoomButton(data.room.name)
   }
+  document.getElementById(data.room.name).classList.add('activeRoom')
 })
 
 socket.on('update_userCount', (data) => {
@@ -62,8 +63,13 @@ socket.on('left_room', (leftRoomData) => {
 
 socket.on('deleted_userRoom', (deletedRoomData) => {
   document.getElementById(deletedRoomData.room).remove()
-  chat.innerHTML = ''
-  roomHeader.innerHTML = ''
+
+  if (currentRoom === deletedRoomData.room) {
+    chat.innerHTML = ''
+    roomHeader.innerHTML = 'Chat'
+    userCount.innerHTML = ''
+    currentRoom = ''
+  }
 })
 
 // PAGE EVENT LISTENERS
@@ -125,10 +131,10 @@ function createRoomButton (roomName) {
   buttonContainer.id = roomName
 
   deleteRoom.className = 'deleteRoomButton'
-  deleteRoom.innerHTML = '<img src="images/deleteRoom.svg" >'
 
-  deleteRoom.addEventListener('click', () => {
-    socket.emit('delete_userRoom', { room: currentRoom, username: currentUsername })
+  deleteRoom.addEventListener('click', (event) => {
+    socket.emit('delete_userRoom', { room: event.target.parentElement.id, username: currentUsername })
+    socket.emit('leave_room', { username: currentUsername, room: currentRoom })
   })
 
   roomButton.className = 'savedRoomButton'
@@ -144,8 +150,6 @@ function createRoomButton (roomName) {
 function swapRoom (newRoom) {
   socket.emit('leave_room', { username: currentUsername, room: currentRoom })
   socket.emit('join_room', { username: currentUsername, room: newRoom })
-  document.getElementById(currentRoom)?.classList.remove('activeRoom')
-  document.getElementById(newRoom).classList.add('activeRoom')
 }
 
 /**

@@ -10,7 +10,7 @@ function joinRoom (fastify, socket) {
     await createRoom(room)
     const currentRoom = await findRoomByName(room)
     const isNew = !(await findUserRoom(username, currentRoom._id))
-    fastify.io.in(room).emit('joined_room', { room: currentRoom, isNew })
+    socket.emit('joined_room', { room: currentRoom, isNew })
     await addRoomToUser(username, currentRoom)
     fastify.io.in(room).emit('update_userCount', { numUsers: fastify.io.sockets.adapter.rooms.get(room)?.size })
 

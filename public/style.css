@@ -96,7 +96,17 @@ aside {
 }
 
 .deleteRoomButton {
- padding-right: 5px;
+ padding: 13px;
+ height: 100%;
+ background-image: url(images/deleteRoom.svg);
+ background-repeat: no-repeat;
+ background-size: inherit;
+ background-position: center;
+}
+
+.deleteRoomButton img {
+  height: 100%;
+  max-height: 22px;
 }
 
 #addRoomButton:hover,.buttonContainer:hover{
